@@ -1,0 +1,49 @@
+{
+	"name": "gulp-csv-to-json",
+	"description": "convert csv to json",
+	"version": "0.1.1",
+	"homepage": "https://github.com/airwave-development/gulp-csv-to-json",
+	"author": {
+		"name": "Olivier de Jong",
+		"email": "olivier@airwave.io",
+		"url": "https://airwave.io"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/airwave-development/gulp-csv-to-json.git"
+	},
+	"bugs": {
+		"url": "https://github.com/airwave-development/gulp-csv-to-json/issues"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "https://github.com/airwave-development/gulp-csv-to-json/blob/master/LICENSE-MIT"
+	}],
+	"engines": {
+		"node": ">= 0.10.33"
+	},
+	"scripts": {
+
+	},
+	"dependencies": {
+		"gulp-util": "3.0.7",
+		"gulp-path": "3.0.3",
+		"through2": "2.0.1",
+		"csv-parse": "0.0.6"
+	},
+	"devDependencies": {
+
+	},
+	"keywords": [
+		"gulp",
+		"gulpplugin",
+		"csv",
+		"json"
+	],
+	"readme": "# gulp-csv-to-json\n\n> Generate static JSON from CSV key/value data.\n\n\n## Getting Started\nThis plugin requires gulp `~0.4.0`\n\nIf you haven't used [gulp](http://gulpjs.com/) before, be sure to check out the [Getting Started](http://gulpjs.com/getting-started) guide, as it explains how to create a [gulpfile](http://gulpjs.com/sample-gulpfile) as well as install and use gulp plugins. Once you're familiar with that process, you may install this plugin with this command:\n\n```shell\nnpm install gulp-csv-to-json --save-dev\n```\n\nOnce the plugin has been installed, it may be enabled inside your gulpfile with this line of JavaScript:\n\n```js\ngulp.loadNpmTasks('gulp-csv-to-json');\n```\n\n\n## The \"csvjson\" task\n\n### Overview\n\nThis task builds JSON structures from key/value data defined in CSV format.\nMultiple JSON resources can be defined per CSV document.\n\nThe following CSV document:\n\n| key  | bob   | sue    |\n| ---- | ----- | ------ |\n| name | Bob   | Sue    |\n| sex  | male  | female |\n| age  | 54    | 24     |\n\nWill generate two JSON resources:\n\n```js\n// dest/bob.json\n{\n\t\"name\": \"Bob\",\n\t\"sex\": \"male\",\n\t\"age\": 54\n}\n\n// dest/sue.json\n{\n\t\"name\": \"Sue\",\n\t\"sex\": \"female\",\n\t\"age\": 24\n}\n```\n\nIn your project's gulpfile, add a section named `csvjson` to the data object passed into `gulp.initConfig()`.\n\n```js\ngulp.initConfig({\n\tcsvjson: {\n\t\ttest: {\n\t\t\tsrc: 'test/src/*.csv',\n\t\t\tdest: 'test/dest'\n\t\t}\n\t},\n});\n```\n\n\n### Options\n\n#### options.parserOptions\nType: `Object`\n\nCSV parser options: see [node-csv-parse#parser-options](https://github.com/wdavidw/node-csv-parse#parser-options).\n\n```js\noptions.parserOptions = {\n\tauto_parse : true\n};\n```\n\n\n#### options.processValue\nType: `Function`\n\nHook to process field value.\n\n```js\noptions.processValue = function (key, value) {\n\treturn value;\n};\n```\n\n\n## CSV format\n\nThe expected format is one row per value, with resource names defined in the first row,\nand field keys in the first column.\n\n| key     | resource-a |\n| ------- | ---------- |\n| key-one | value-one  |\n| key-two | value-two  |\n\n\n### Object hierarchy\n\nObject hierarchy is expressed with dot notation in the key.\n\nThe following data:\n\n| key         | bob   |\n| ----------- | ----- |\n| person.name | Bob   |\n| person.sex  | male  |\n| person.age  | 54    |\n\nWill generate:\n\n```json\n{\n\t\"person\": {\n\t\t\"name\": \"Bob\",\n\t\t\"sex\": \"male\",\n\t\t\"age\": 54\n\t}\n}\n```\n\n\n### Implicit array syntax\n\nArrays of values can be implicitly defined by duplicating keys.\n\nThe following data:\n\n| key           | list    |\n| ------------- | ------- |\n| shopping.day  | Sunday  |\n| shopping.list | fruit   |\n| shopping.list | candy   |\n| shopping.list | pasta   |\n| shopping.list | spinach |\n\nWill generate:\n\n```json\n{\n\t\"shopping\": {\n\t\t\"day\": \"Sunday\",\n\t\t\"list\": [\"fruit\", \"candy\", \"pasta\", \"spinach\"]\n\t}\n}\n```\n\n\n### Explicit array syntax\n\nArrays of values can be explicitly defined by using integer keys.\n\nThe following data:\n\n| key       | list    |\n| --------- | ------- |\n| list.0.0  | fruit   |\n| list.0.1  | candy   |\n| list.1.0  | pasta   |\n| list.1.1  | spinach |\n\nWill generate:\n\n```json\n{\n\t\"list\": [\n\t\t[\"fruit\", \"candy\"],\n\t\t[\"pasta\", \"spinach\"]\n\t]\n}\n```",
+	"readmeFilename": "readme.md",
+	"gitHead": "e16718b407c85d6c3b80f0a30141a30844d4c864",
+	"_id": "gulp-csv-to-json@0.1.1",
+	"_shasum": "2dbe66d9b1db522e4eaf19d714da1f71ea845ffb",
+	"_from": "gulp-csv-to-json@latest"
+}

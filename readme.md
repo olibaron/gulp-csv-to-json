@@ -51,11 +51,11 @@ In your project's Gulpfile, add a section named `csvjson` to the data object pas
 ```js
 var gulp = require('gulp');
 var csv2json = require('gulp-csv-to-json');
-
+var options = {};
 gulp.task('csvToJson', function () {
     return gulp
     	.src('src/**/*.csv')
-        .pipe(csv2json({}))
+        .pipe(csv2json(options))
         .pipe(gulp.dest('dist'));
 });
 ```
@@ -63,13 +63,13 @@ gulp.task('csvToJson', function () {
 
 ### Options
 
-#### options.parserOptions
+#### options
 Type: `Object`
 
 CSV parser options: see [node-csv-parse#parser-options](https://github.com/wdavidw/node-csv-parse#parser-options).
 
 ```js
-options.parserOptions = {
+options = {
 	auto_parse : true
 };
 ```
@@ -81,8 +81,10 @@ Type: `Function`
 Hook to process field value.
 
 ```js
-options.processValue = function (key, value) {
-	return value;
+options = {
+	processValue: function (key, value) {
+		return value;
+	}	
 };
 ```
 
